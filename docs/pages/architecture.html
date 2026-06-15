@@ -2,11 +2,16 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Architecture · ENSECNET CiscoParser</title>
 <link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/i18n.js"></script>
 </head>
 <body data-root="../" data-page="pages/architecture.html">
 <div class="layout">
-<aside class="sidebar"><div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<aside class="sidebar">
+<div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div>
+<div class="lang-switch"></div>
+<nav class="nav"></nav></aside>
 <main class="content">
+<div data-lang="en">
 <h1>Architecture</h1>
 <p class="sub">FastAPI backend + static frontend, packaged as Docker Compose on a minimal LXC.</p>
 <div class="flow">.cfg ──► parser.py ──► transform.py ──► netbox_push.py ──► NetBox</div>
@@ -29,7 +34,32 @@
 <tr><td>Device push 400 "field required"</td><td>Prerequisites auto-created in netbox_push.py.</td></tr>
 <tr><td>IP rejected by IPAM</td><td>Parser already converts mask → CIDR.</td></tr>
 <tr><td>Docker on Alpine LXC flaky</td><td>Use Debian 12 LXC (default in the deployer).</td></tr></table>
-<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</div>
+<div data-lang="sk">
+<h1>Architektúra</h1>
+<p class="sub">FastAPI backend + statický frontend, zabalené ako Docker Compose na minimálnom LXC.</p>
+<div class="flow">.cfg ──► parser.py ──► transform.py ──► netbox_push.py ──► NetBox</div>
+<h2>Moduly</h2>
+<ul>
+<li><strong>parser.py</strong> — wrapper nad CiscoConfParse2. Extrahuje natívne objekty ako štruktúrované polia, všetko ostatné ako textové config-context bloky.</li>
+<li><strong>transform.py</strong> — pretvorí surový výstup parsera na kanonický NetBox model. Bez tejto vrstvy push vytvorí prázdne zariadenie.</li>
+<li><strong>netbox_push.py</strong> — pynetbox. Automaticky vytvorí prerekvizity a nastaví tri povinné polia zariadenia (device_type / role / site).</li>
+</ul>
+<h2>Stack</h2>
+<table><tr><th>Vrstva</th><th>Technológia</th><th>Image</th></tr>
+<tr><td>Backend</td><td>Python 3.12 · FastAPI · CiscoConfParse2 · pynetbox</td><td><code>python:3.12-alpine</code> (multi-stage)</td></tr>
+<tr><td>Frontend</td><td>Statické HTML/JS cez Nginx</td><td><code>nginx:alpine</code></td></tr>
+<tr><td>Host</td><td>Debian 12 minimal LXC na Proxmoxe + Docker</td><td>—</td></tr></table>
+<h3>Prečo tieto base image</h3>
+<p>Alpine pre Docker images (reálna úspora veľkosti, ~50–60 MB backend). Debian 12 minimal pre LXC host, lebo Docker tam beží bez trenia s cgroupv2 / OpenRC, na ktoré naďabíš pri Dockeri na Alpine LXC.</p>
+<h2>Známe úskalia</h2>
+<table><tr><th>Problém</th><th>Riešenie</th></tr>
+<tr><td>NetBox 4.5+ "Invalid v1 token"</td><td>Skopíruj plný kľúč pri vytvorení — zobrazí sa raz.</td></tr>
+<tr><td>Push zariadenia 400 "field required"</td><td>Prerekvizity sa vytvoria automaticky v netbox_push.py.</td></tr>
+<tr><td>IP odmietnutá IPAM-om</td><td>Parser už konvertuje masku → CIDR.</td></tr>
+<tr><td>Docker na Alpine LXC zlobí</td><td>Použi Debian 12 LXC (default v deployeri).</td></tr></table>
+</div>
+<footer data-i18n="footer">ENSECNET · open-source · <em>Great infrastructure is invisible — its absence is not.</em></footer>
 </main></div>
 <script src="../assets/nav.js"></script>
 </body></html>

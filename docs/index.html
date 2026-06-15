@@ -2,11 +2,16 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Overview · ENSECNET CiscoParser</title>
 <link rel="stylesheet" href="assets/style.css">
+<script src="assets/i18n.js"></script>
 </head>
 <body data-root="" data-page="index.html">
 <div class="layout">
-<aside class="sidebar"><div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<aside class="sidebar">
+<div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div>
+<div class="lang-switch"></div>
+<nav class="nav"></nav></aside>
 <main class="content">
+<div data-lang="en">
 <h1>CiscoParser</h1>
 <p class="sub">Web-based application for network documentation — import Cisco switches and routers into NetBox from their own running-config.</p>
 <span class="badge ok">on-prem · Docker + LXC</span> <span class="badge">NetBox 4.5+</span> <span class="badge">Cisco IOS-XE</span>
@@ -22,8 +27,25 @@
 <pre><code>curl -fsSL https://raw.githubusercontent.com/ensecnet/CiscoParser/main/deploy/lxc-deploy.sh -o lxc-deploy.sh
 bash lxc-deploy.sh
 # open http://&lt;lxc-ip&gt;:8080</code></pre>
-<p>Continue with <a href="pages/why.html">Why a parser</a>, or jump to <a href="pages/deploy.html">Deploy on Proxmox</a>.</p>
-<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</div>
+<div data-lang="sk">
+<h1>CiscoParser</h1>
+<p class="sub">Webová aplikácia na dokumentáciu siete — import Cisco switchov a routrov do NetBoxu priamo z ich running-configu.</p>
+<span class="badge ok">on-prem · Docker + LXC</span> <span class="badge">NetBox 4.5+</span> <span class="badge">Cisco IOS-XE</span>
+<div class="callout">Bežiace zariadenie už o sebe vie všetko. CiscoParser premení túto znalosť na štruktúrovaný model, ktorý vidíš, prehľadávaš a uchováš — namiesto ručného dokumentovania siete.</div>
+<h2>Čo robí</h2>
+<p>Dáš mu Cisco IOS-XE <code>running-config</code>. Vráti štruktúrovaný <strong>model pripravený pre NetBox</strong> a zapíše ho priamo do NetBoxu — open-source zdroja pravdy pre DCIM a IPAM.</p>
+<div class="flow">Cisco IOS-XE .cfg ──► parse ──► transform ──► NetBox (DCIM / IPAM + config context)</div>
+<h2>Edície</h2>
+<table><tr><th>Edícia</th><th>Beží na</th><th>NetBox</th></tr>
+<tr><td>CiscoParser (toto repo)</td><td>Proxmox LXC + Docker</td><td>Živý push cez lokálnu sieť</td></tr>
+<tr><td>CiscoParser Web</td><td>Cloudflare Worker (verejný)</td><td>Stiahnutie JSON + vygenerovaný import skript — nič sa neukladá</td></tr></table>
+<h2>Rýchly štart</h2>
+<pre><code>curl -fsSL https://raw.githubusercontent.com/ensecnet/CiscoParser/main/deploy/lxc-deploy.sh -o lxc-deploy.sh
+bash lxc-deploy.sh
+# otvor http://&lt;lxc-ip&gt;:8080</code></pre>
+</div>
+<footer data-i18n="footer">ENSECNET · open-source · <em>Great infrastructure is invisible — its absence is not.</em></footer>
 </main></div>
 <script src="assets/nav.js"></script>
 </body></html>

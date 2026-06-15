@@ -2,11 +2,16 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>API · ENSECNET CiscoParser</title>
 <link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/i18n.js"></script>
 </head>
 <body data-root="../" data-page="pages/api.html">
 <div class="layout">
-<aside class="sidebar"><div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<aside class="sidebar">
+<div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div>
+<div class="lang-switch"></div>
+<nav class="nav"></nav></aside>
 <main class="content">
+<div data-lang="en">
 <h1>API</h1>
 <p class="sub">The backend exposes a small REST surface behind Nginx at <code>/api</code>.</p>
 <table><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr>
@@ -19,7 +24,22 @@
 <pre><code>curl -s -X POST http://HOST:8080/api/parse-text \
   -H 'content-type: application/json' \
   -d '{"config":"hostname CORE-RTR-01\n!\ninterface Gi0/0/0\n ip address 198.51.100.2 255.255.255.0"}'</code></pre>
-<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</div>
+<div data-lang="sk">
+<h1>API</h1>
+<p class="sub">Backend vystavuje malé REST rozhranie za Nginxom na <code>/api</code>.</p>
+<table><tr><th>Metóda</th><th>Endpoint</th><th>Účel</th></tr>
+<tr><td>GET</td><td><code>/api/health</code></td><td>liveness</td></tr>
+<tr><td>POST</td><td><code>/api/test-connection</code></td><td>overenie NetBox URL + token</td></tr>
+<tr><td>POST</td><td><code>/api/parse</code></td><td>upload <code>.cfg</code>, vráti model</td></tr>
+<tr><td>POST</td><td><code>/api/parse-text</code></td><td>parsovanie surového textu</td></tr>
+<tr><td>POST</td><td><code>/api/push</code></td><td>push modelu do NetBoxu</td></tr></table>
+<h2>Príklad — parse a push</h2>
+<pre><code>curl -s -X POST http://HOST:8080/api/parse-text \
+  -H 'content-type: application/json' \
+  -d '{"config":"hostname CORE-RTR-01\n!\ninterface Gi0/0/0\n ip address 198.51.100.2 255.255.255.0"}'</code></pre>
+</div>
+<footer data-i18n="footer">ENSECNET · open-source · <em>Great infrastructure is invisible — its absence is not.</em></footer>
 </main></div>
 <script src="../assets/nav.js"></script>
 </body></html>

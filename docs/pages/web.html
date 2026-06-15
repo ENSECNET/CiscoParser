@@ -2,11 +2,16 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Web edition · ENSECNET CiscoParser</title>
 <link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/i18n.js"></script>
 </head>
 <body data-root="../" data-page="pages/web.html">
 <div class="layout">
-<aside class="sidebar"><div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<aside class="sidebar">
+<div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div>
+<div class="lang-switch"></div>
+<nav class="nav"></nav></aside>
 <main class="content">
+<div data-lang="en">
 <h1>Web edition</h1>
 <p class="sub">A public, zero-install converter — for when you just want the model, without a server.</p>
 <p>The <a href="https://github.com/ensecnet/CiscoParserWeb">CiscoParser Web</a> repo runs the same parser as a Cloudflare Worker (pure JavaScript). Paste a config, get the model, download it.</p>
@@ -16,7 +21,19 @@
 <h2>Why it does not push</h2>
 <p>NetBox lives on a private network and a token is sensitive. The web edition never pushes and never sees your token. Instead it returns the model as JSON plus a self-contained <code>import.py</code> you run on a host that can reach your own NetBox, with your own credentials.</p>
 <div class="callout">Same model shape as the on-prem edition, so the JSON and the generated script are interchangeable between the two.</div>
-<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</div>
+<div data-lang="sk">
+<h1>Webová edícia</h1>
+<p class="sub">Verejný konverter bez inštalácie — keď len chceš model, bez servera.</p>
+<p>Repo <a href="https://github.com/ensecnet/CiscoParserWeb">CiscoParser Web</a> beží na rovnakom parseri ako Cloudflare Worker (čisté JavaScript). Vložíš config, dostaneš model, stiahneš ho.</p>
+<div class="flow">vlož config ──► parse (Worker) ──► model JSON
+                                  ├─► Stiahni JSON
+                                  └─► Stiahni import.py (spustíš sám)</div>
+<h2>Prečo nepushuje</h2>
+<p>NetBox žije v privátnej sieti a token je citlivý. Webová edícia nikdy nepushuje a nikdy nevidí tvoj token. Namiesto toho vráti model ako JSON plus samostatný <code>import.py</code>, ktorý spustíš na hoste s dosahom na tvoj vlastný NetBox, s tvojimi vlastnými prihlasovacími údajmi.</p>
+<div class="callout">Rovnaký tvar modelu ako on-prem edícia, takže JSON aj vygenerovaný skript sú medzi nimi zameniteľné.</div>
+</div>
+<footer data-i18n="footer">ENSECNET · open-source · <em>Great infrastructure is invisible — its absence is not.</em></footer>
 </main></div>
 <script src="../assets/nav.js"></script>
 </body></html>

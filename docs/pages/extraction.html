@@ -2,11 +2,16 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>What it extracts · ENSECNET CiscoParser</title>
 <link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/i18n.js"></script>
 </head>
 <body data-root="../" data-page="pages/extraction.html">
 <div class="layout">
-<aside class="sidebar"><div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<aside class="sidebar">
+<div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div>
+<div class="lang-switch"></div>
+<nav class="nav"></nav></aside>
 <main class="content">
+<div data-lang="en">
 <h1>What it extracts</h1>
 <p class="sub">Native objects become real NetBox records; everything else is preserved verbatim as config context.</p>
 <p>CiscoParser reads the config the way an engineer does — it understands the hierarchical parent/child structure (<code>interface → ip address → shutdown</code>), not just lines of text.</p>
@@ -27,7 +32,30 @@
 <tr><td>aaa</td><td>AAA, TACACS+, RADIUS, local users</td></tr>
 <tr><td>crypto / qos / lines</td><td>PKI/IPsec, QoS policy, console/VTY</td></tr></table>
 <div class="callout">The split is deliberate: things NetBox models natively become records you can query, filter and relate; everything else is preserved so the device's full configuration stays attached.</div>
-<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</div>
+<div data-lang="sk">
+<h1>Čo extrahuje</h1>
+<p class="sub">Natívne objekty sa stanú reálnymi NetBox záznamami; všetko ostatné sa zachová doslovne ako config context.</p>
+<p>CiscoParser číta config tak ako inžinier — rozumie hierarchickej štruktúre rodič/dieťa (<code>interface → ip address → shutdown</code>), nielen riadkom textu.</p>
+<h2>Natívne NetBox objekty</h2>
+<table><tr><th>Z configu</th><th>Stane sa</th></tr>
+<tr><td><code>hostname</code></td><td>Názov zariadenia</td></tr>
+<tr><td><code>interface …</code></td><td>Rozhranie (typ, popis, stav enabled)</td></tr>
+<tr><td><code>ip address A B</code></td><td>IP adresa (maska → CIDR)</td></tr>
+<tr><td><code>vlan N</code></td><td>VLAN</td></tr>
+<tr><td><code>ip vrf / vrf definition</code></td><td>VRF (+ route distinguisher)</td></tr></table>
+<h2>Config context (textový)</h2>
+<p>Všetko, čo NetBox nemodeluje natívne, sa zachytí doslovne a pripojí k zariadeniu ako lokálny config context, takže nič sa nestratí:</p>
+<table><tr><th>Skupina</th><th>Zachytáva</th></tr>
+<tr><td>routing</td><td>OSPF, EIGRP, BGP, statické routy</td></tr>
+<tr><td>dhcp</td><td>DHCP pooly</td></tr>
+<tr><td>acls / nat</td><td>access-listy, NAT pravidlá</td></tr>
+<tr><td>snmp / ntp / logging</td><td>manažment služby</td></tr>
+<tr><td>aaa</td><td>AAA, TACACS+, RADIUS, lokálni používatelia</td></tr>
+<tr><td>crypto / qos / lines</td><td>PKI/IPsec, QoS politika, console/VTY</td></tr></table>
+<div class="callout">Rozdelenie je zámerné: čo NetBox modeluje natívne, stane sa záznamom, ktorý vieš filtrovať a prepájať; všetko ostatné sa zachová, aby zostala pripojená plná konfigurácia zariadenia.</div>
+</div>
+<footer data-i18n="footer">ENSECNET · open-source · <em>Great infrastructure is invisible — its absence is not.</em></footer>
 </main></div>
 <script src="../assets/nav.js"></script>
 </body></html>

@@ -2,11 +2,16 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Why a parser · ENSECNET CiscoParser</title>
 <link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/i18n.js"></script>
 </head>
 <body data-root="../" data-page="pages/why.html">
 <div class="layout">
-<aside class="sidebar"><div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<aside class="sidebar">
+<div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div>
+<div class="lang-switch"></div>
+<nav class="nav"></nav></aside>
 <main class="content">
+<div data-lang="en">
 <h1>Why a parser</h1>
 <p class="sub">Documenting a network by hand drifts the day it is written. The device's config does not.</p>
 <h2>The problem</h2>
@@ -22,7 +27,25 @@
 </ul>
 <h2>Where it fits</h2>
 <p>CiscoParser is an <strong>import / documentation</strong> tool, not a configuration manager. It takes the device's own truth and turns it into a model you can keep. It pairs naturally with a standalone NetBox deployment: NetBox is the store, CiscoParser is one of the doors data comes in through.</p>
-<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</div>
+<div data-lang="sk">
+<h1>Načo parser</h1>
+<p class="sub">Ručná dokumentácia siete sa rozchádza s realitou v deň, keď vznikne. Config zariadenia nie.</p>
+<h2>Problém</h2>
+<p>Bežiace sieťové zariadenie o sebe vie všetko. Jeho <code>running-config</code> je najautoritatívnejší popis toho, ako je nastavené: rozhrania, adresy, VLAN-y, VRF-y, smerovanie, autentifikácia, logovanie.</p>
+<p>Lenže táto znalosť žije len na zariadení — ako plochý text, vo vendorskom dialekte, na stovkách boxov. Keď chceš <em>obraz</em> — inventár, IPAM, audit — prepisuješ to, čo zariadenia už vedia. Tabuľka je neaktuálna skôr, než ju uložíš; config sa stále mení.</p>
+<h2>Prečo je užitočný</h2>
+<ul>
+<li><strong>Inventár bez písania.</strong> Načítaš config a zariadenie, jeho rozhrania, adresy a VLAN-y sa objavia v NetBoxe.</li>
+<li><strong>IPAM, ktorý sedí s realitou.</strong> Adresy pochádzajú z configu, nie z pamäte.</li>
+<li><strong>Dokumentácia, ktorú vieš spustiť znova.</strong> Keď sa config zmení, naparsuješ ho znova — model sa regeneruje zo zdroja pravdy a nemôže ticho zostarnúť.</li>
+<li><strong>Audit a revízia.</strong> Normalizovaný pohľad uľahčí nájsť rozhranie bez popisu, VLAN definovanú no nepoužitú, ACL, ktorá tam nepatrí.</li>
+<li><strong>Základ pre všetko ďalšie.</strong> Keď sieť žije v NetBoxe ako štruktúrované dáta, diagramy, compliance kontroly aj automatizácia majú z čoho čítať.</li>
+</ul>
+<h2>Kam zapadá</h2>
+<p>CiscoParser je nástroj na <strong>import / dokumentáciu</strong>, nie správca konfigurácie. Berie vlastnú pravdu zariadenia a mení ju na model, ktorý si uchováš. Prirodzene sa páruje so samostatným NetBox nasadením: NetBox je úložisko, CiscoParser sú jedny z dverí, ktorými dáta vstupujú.</p>
+</div>
+<footer data-i18n="footer">ENSECNET · open-source · <em>Great infrastructure is invisible — its absence is not.</em></footer>
 </main></div>
 <script src="../assets/nav.js"></script>
 </body></html>

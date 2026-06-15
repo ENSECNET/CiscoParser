@@ -2,11 +2,16 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Deploy on Proxmox · ENSECNET CiscoParser</title>
 <link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/i18n.js"></script>
 </head>
 <body data-root="../" data-page="pages/deploy.html">
 <div class="layout">
-<aside class="sidebar"><div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<aside class="sidebar">
+<div class="brand"><span class="dot">CP</span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div>
+<div class="lang-switch"></div>
+<nav class="nav"></nav></aside>
 <main class="content">
+<div data-lang="en">
 <h1>Deploy on Proxmox</h1>
 <p class="sub">One thin deployer: minimal Debian 12 LXC → Docker → clone repo → compose up.</p>
 <pre><code>curl -fsSL https://raw.githubusercontent.com/ensecnet/CiscoParser/main/deploy/lxc-deploy.sh -o lxc-deploy.sh
@@ -19,7 +24,22 @@ docker compose up -d --build
 <h2>Update</h2>
 <pre><code>pct exec &lt;CTID&gt; -- bash -c 'cd /opt/ciscoparser &amp;&amp; git pull &amp;&amp; docker compose up -d --build'</code></pre>
 <div class="callout warn">NetBox tokens (4.5+) are shown <strong>once</strong> at creation. Copy the full key immediately — it cannot be retrieved later.</div>
-<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</div>
+<div data-lang="sk">
+<h1>Nasadenie na Proxmox</h1>
+<p class="sub">Jeden tenký deployer: minimal Debian 12 LXC → Docker → clone repo → compose up.</p>
+<pre><code>curl -fsSL https://raw.githubusercontent.com/ensecnet/CiscoParser/main/deploy/lxc-deploy.sh -o lxc-deploy.sh
+bash lxc-deploy.sh</code></pre>
+<p>Sprievodca sa spýta na container ID, hostname, úložisko, sieť (bridge / VLAN / IP) a web port, potom všetko postaví. Otvor <code>http://&lt;lxc-ip&gt;:8080</code>.</p>
+<h2>Ľubovoľný Docker host</h2>
+<pre><code>cp .env.example .env        # voliteľne nastav NETBOX_URL / NETBOX_TOKEN
+docker compose up -d --build
+# UI: http://localhost:8080</code></pre>
+<h2>Aktualizácia</h2>
+<pre><code>pct exec &lt;CTID&gt; -- bash -c 'cd /opt/ciscoparser &amp;&amp; git pull &amp;&amp; docker compose up -d --build'</code></pre>
+<div class="callout warn">NetBox tokeny (4.5+) sa pri vytvorení zobrazia <strong>raz</strong>. Skopíruj plný kľúč hneď — neskôr sa nedá získať.</div>
+</div>
+<footer data-i18n="footer">ENSECNET · open-source · <em>Great infrastructure is invisible — its absence is not.</em></footer>
 </main></div>
 <script src="../assets/nav.js"></script>
 </body></html>

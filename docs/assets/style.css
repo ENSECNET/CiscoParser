@@ -64,3 +64,13 @@ footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);color:v
   .sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line)}
   .content{padding:28px 22px}
 }
+
+/* language switcher */
+.lang-switch{display:flex;gap:4px;padding:12px 20px;border-bottom:1px solid var(--line)}
+.lang-btn{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.5px;
+  padding:4px 12px;border:1px solid var(--line);background:var(--bg);color:var(--muted);
+  border-radius:5px;cursor:pointer}
+.lang-btn:hover{background:var(--panel2)}
+.lang-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+/* per-page bilingual blocks: hidden by default, i18n.js reveals the active one */
+[data-lang]{display:none}
