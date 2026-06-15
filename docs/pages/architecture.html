@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Architecture · ENSECNET CiscoParser</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-page="pages/architecture.html">
+<div class="layout">
+<aside class="sidebar"><div class="brand"><span class="dot"></span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<main class="content">
+<h1>Architecture</h1>
+<p class="sub">FastAPI backend + static frontend, packaged as Docker Compose on a minimal LXC.</p>
+<div class="flow">.cfg ──► parser.py ──► transform.py ──► netbox_push.py ──► NetBox</div>
+<h2>Modules</h2>
+<ul>
+<li><strong>parser.py</strong> — CiscoConfParse2 wrapper. Extracts native objects as structured fields, everything else as textual config-context blocks.</li>
+<li><strong>transform.py</strong> — reshapes raw parser output into the canonical NetBox model. Without this layer the push produces an empty device.</li>
+<li><strong>netbox_push.py</strong> — pynetbox. Auto-creates prerequisites and sets the three required device fields (device_type / role / site).</li>
+</ul>
+<h2>Stack</h2>
+<table><tr><th>Layer</th><th>Tech</th><th>Image</th></tr>
+<tr><td>Backend</td><td>Python 3.12 · FastAPI · CiscoConfParse2 · pynetbox</td><td><code>python:3.12-alpine</code> (multi-stage)</td></tr>
+<tr><td>Frontend</td><td>Static HTML/JS via Nginx</td><td><code>nginx:alpine</code></td></tr>
+<tr><td>Host</td><td>Debian 12 minimal LXC on Proxmox + Docker</td><td>—</td></tr></table>
+<h3>Why this base image choice</h3>
+<p>Alpine for the Docker images (real size win, ~50–60 MB backend). Debian 12 minimal for the LXC host, because Docker runs there without the cgroupv2 / OpenRC friction you hit running Docker on an Alpine LXC.</p>
+<h2>Known gotchas</h2>
+<table><tr><th>Issue</th><th>Fix</th></tr>
+<tr><td>NetBox 4.5+ "Invalid v1 token"</td><td>Copy the full key at creation — shown once.</td></tr>
+<tr><td>Device push 400 "field required"</td><td>Prerequisites auto-created in netbox_push.py.</td></tr>
+<tr><td>IP rejected by IPAM</td><td>Parser already converts mask → CIDR.</td></tr>
+<tr><td>Docker on Alpine LXC flaky</td><td>Use Debian 12 LXC (default in the deployer).</td></tr></table>
+<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</main></div>
+<script src="../assets/nav.js"></script>
+</body></html>

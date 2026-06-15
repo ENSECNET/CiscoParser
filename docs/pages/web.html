@@ -1,0 +1,22 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web edition · ENSECNET CiscoParser</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-page="pages/web.html">
+<div class="layout">
+<aside class="sidebar"><div class="brand"><span class="dot"></span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<main class="content">
+<h1>Web edition</h1>
+<p class="sub">A public, zero-install converter — for when you just want the model, without a server.</p>
+<p>The <a href="https://github.com/TencoNemaStrach/CiscoParserWeb">CiscoParser Web</a> repo runs the same parser as a Cloudflare Worker (pure JavaScript). Paste a config, get the model, download it.</p>
+<div class="flow">paste config ──► parse (Worker) ──► model JSON
+                                  ├─► Download JSON
+                                  └─► Download import.py (run it yourself)</div>
+<h2>Why it does not push</h2>
+<p>NetBox lives on a private network and a token is sensitive. The web edition never pushes and never sees your token. Instead it returns the model as JSON plus a self-contained <code>import.py</code> you run on a host that can reach your own NetBox, with your own credentials.</p>
+<div class="callout">Same model shape as the on-prem edition, so the JSON and the generated script are interchangeable between the two.</div>
+<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</main></div>
+<script src="../assets/nav.js"></script>
+</body></html>

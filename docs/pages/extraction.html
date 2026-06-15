@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What it extracts · ENSECNET CiscoParser</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-page="pages/extraction.html">
+<div class="layout">
+<aside class="sidebar"><div class="brand"><span class="dot"></span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<main class="content">
+<h1>What it extracts</h1>
+<p class="sub">Native objects become real NetBox records; everything else is preserved verbatim as config context.</p>
+<p>CiscoParser reads the config the way an engineer does — it understands the hierarchical parent/child structure (<code>interface → ip address → shutdown</code>), not just lines of text.</p>
+<h2>Native NetBox objects</h2>
+<table><tr><th>From config</th><th>Becomes</th></tr>
+<tr><td><code>hostname</code></td><td>Device name</td></tr>
+<tr><td><code>interface …</code></td><td>Interface (type, description, enabled state)</td></tr>
+<tr><td><code>ip address A B</code></td><td>IP address (mask → CIDR)</td></tr>
+<tr><td><code>vlan N</code></td><td>VLAN</td></tr>
+<tr><td><code>ip vrf / vrf definition</code></td><td>VRF (+ route distinguisher)</td></tr></table>
+<h2>Config context (textual)</h2>
+<p>Everything NetBox does not model natively is captured verbatim and attached to the device as local config context, so nothing is lost:</p>
+<table><tr><th>Group</th><th>Matches</th></tr>
+<tr><td>routing</td><td>OSPF, EIGRP, BGP, static routes</td></tr>
+<tr><td>dhcp</td><td>DHCP pools</td></tr>
+<tr><td>acls / nat</td><td>access-lists, NAT rules</td></tr>
+<tr><td>snmp / ntp / logging</td><td>management services</td></tr>
+<tr><td>aaa</td><td>AAA, TACACS+, RADIUS, local users</td></tr>
+<tr><td>crypto / qos / lines</td><td>PKI/IPsec, QoS policy, console/VTY</td></tr></table>
+<div class="callout">The split is deliberate: things NetBox models natively become records you can query, filter and relate; everything else is preserved so the device's full configuration stays attached.</div>
+<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</main></div>
+<script src="../assets/nav.js"></script>
+</body></html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overview · ENSECNET CiscoParser</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-root="" data-page="index.html">
+<div class="layout">
+<aside class="sidebar"><div class="brand"><span class="dot"></span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<main class="content">
+<h1>CiscoParser</h1>
+<p class="sub">Web-based application for network documentation — import Cisco switches and routers into NetBox from their own running-config.</p>
+<span class="badge ok">on-prem · Docker + LXC</span> <span class="badge">NetBox 4.5+</span> <span class="badge">Cisco IOS-XE</span>
+<div class="callout">A running device already knows everything about itself. CiscoParser turns that knowledge into a structured model you can see, search and keep — instead of documenting the network by hand.</div>
+<h2>What it does</h2>
+<p>You give it a Cisco IOS-XE <code>running-config</code>. It returns a structured <strong>NetBox-ready model</strong> of the device and writes it straight into NetBox — the open-source source of truth for DCIM and IPAM.</p>
+<div class="flow">Cisco IOS-XE .cfg ──► parse ──► transform ──► NetBox (DCIM / IPAM + config context)</div>
+<h2>Editions</h2>
+<table><tr><th>Edition</th><th>Runs on</th><th>NetBox</th></tr>
+<tr><td>CiscoParser (this repo)</td><td>Proxmox LXC + Docker</td><td>Live push over the local network</td></tr>
+<tr><td>CiscoParser Web</td><td>Cloudflare Worker (public)</td><td>Download JSON + generated import script — nothing stored</td></tr></table>
+<h2>Quick start</h2>
+<pre><code>curl -fsSL https://raw.githubusercontent.com/TencoNemaStrach/CiscoParser/main/deploy/lxc-deploy.sh -o lxc-deploy.sh
+bash lxc-deploy.sh
+# open http://&lt;lxc-ip&gt;:8080</code></pre>
+<p>Continue with <a href="pages/why.html">Why a parser</a>, or jump to <a href="pages/deploy.html">Deploy on Proxmox</a>.</p>
+<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</main></div>
+<script src="assets/nav.js"></script>
+</body></html>

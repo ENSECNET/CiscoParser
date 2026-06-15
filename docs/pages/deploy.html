@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Deploy on Proxmox · ENSECNET CiscoParser</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-page="pages/deploy.html">
+<div class="layout">
+<aside class="sidebar"><div class="brand"><span class="dot"></span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<main class="content">
+<h1>Deploy on Proxmox</h1>
+<p class="sub">One thin deployer: minimal Debian 12 LXC → Docker → clone repo → compose up.</p>
+<pre><code>curl -fsSL https://raw.githubusercontent.com/TencoNemaStrach/CiscoParser/main/deploy/lxc-deploy.sh -o lxc-deploy.sh
+bash lxc-deploy.sh</code></pre>
+<p>The wizard asks for container ID, hostname, storage, network (bridge / VLAN / IP) and the web port, then builds everything. Open <code>http://&lt;lxc-ip&gt;:8080</code>.</p>
+<h2>Any Docker host</h2>
+<pre><code>cp .env.example .env        # optionally set NETBOX_URL / NETBOX_TOKEN
+docker compose up -d --build
+# UI: http://localhost:8080</code></pre>
+<h2>Update</h2>
+<pre><code>pct exec &lt;CTID&gt; -- bash -c 'cd /opt/ciscoparser &amp;&amp; git pull &amp;&amp; docker compose up -d --build'</code></pre>
+<div class="callout warn">NetBox tokens (4.5+) are shown <strong>once</strong> at creation. Copy the full key immediately — it cannot be retrieved later.</div>
+<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</main></div>
+<script src="../assets/nav.js"></script>
+</body></html>

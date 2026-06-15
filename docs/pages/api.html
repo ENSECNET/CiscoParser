@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API · ENSECNET CiscoParser</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-page="pages/api.html">
+<div class="layout">
+<aside class="sidebar"><div class="brand"><span class="dot"></span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<main class="content">
+<h1>API</h1>
+<p class="sub">The backend exposes a small REST surface behind Nginx at <code>/api</code>.</p>
+<table><tr><th>Method</th><th>Endpoint</th><th>Purpose</th></tr>
+<tr><td>GET</td><td><code>/api/health</code></td><td>liveness</td></tr>
+<tr><td>POST</td><td><code>/api/test-connection</code></td><td>verify NetBox URL + token</td></tr>
+<tr><td>POST</td><td><code>/api/parse</code></td><td>upload <code>.cfg</code>, return model</td></tr>
+<tr><td>POST</td><td><code>/api/parse-text</code></td><td>parse raw text body</td></tr>
+<tr><td>POST</td><td><code>/api/push</code></td><td>push model to NetBox</td></tr></table>
+<h2>Example — parse then push</h2>
+<pre><code>curl -s -X POST http://HOST:8080/api/parse-text \
+  -H 'content-type: application/json' \
+  -d '{"config":"hostname CORE-RTR-01\n!\ninterface Gi0/0/0\n ip address 198.51.100.2 255.255.255.0"}'</code></pre>
+<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</main></div>
+<script src="../assets/nav.js"></script>
+</body></html>

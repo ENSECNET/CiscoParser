@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why a parser · ENSECNET CiscoParser</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body data-root="../" data-page="pages/why.html">
+<div class="layout">
+<aside class="sidebar"><div class="brand"><span class="dot"></span><div><b>CiscoParser</b><span>ENSECNET · network docs</span></div></div><nav class="nav"></nav></aside>
+<main class="content">
+<h1>Why a parser</h1>
+<p class="sub">Documenting a network by hand drifts the day it is written. The device's config does not.</p>
+<h2>The problem</h2>
+<p>A running network device knows everything about itself. Its <code>running-config</code> is the single most authoritative description of how it is set up: interfaces, addresses, VLANs, VRFs, routing, authentication, logging.</p>
+<p>But that knowledge lives only on the device — flat text, in a vendor dialect, on hundreds of boxes. The moment you want a <em>picture</em> — an inventory, an IPAM, an audit — you are retyping what the devices already know. The spreadsheet is stale before you save it; the config keeps changing.</p>
+<h2>Why it is useful</h2>
+<ul>
+<li><strong>Inventory without typing.</strong> Point it at a config and the device, its interfaces, addresses and VLANs appear in NetBox.</li>
+<li><strong>IPAM that matches reality.</strong> Addresses come from the config, not from memory.</li>
+<li><strong>Documentation you can re-run.</strong> When a config changes, re-parse it — the model is regenerated from ground truth and cannot silently drift.</li>
+<li><strong>Audit and review.</strong> A normalized view makes it easy to spot the interface with no description, the VLAN defined but unused, the ACL that does not belong.</li>
+<li><strong>A foundation for everything downstream.</strong> Once the network lives in NetBox as structured data, diagrams, compliance checks and automation all have something to read from.</li>
+</ul>
+<h2>Where it fits</h2>
+<p>CiscoParser is an <strong>import / documentation</strong> tool, not a configuration manager. It takes the device's own truth and turns it into a model you can keep. It pairs naturally with a standalone NetBox deployment: NetBox is the store, CiscoParser is one of the doors data comes in through.</p>
+<footer>ENSECNET · open-source · <em>dobrá infraštruktúra nie je vidieť — jej absencia áno.</em></footer>
+</main></div>
+<script src="../assets/nav.js"></script>
+</body></html>
