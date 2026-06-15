@@ -8,7 +8,7 @@ Import Cisco switches and routers into NetBox — straight from their `running-c
 
 [![Docs](https://img.shields.io/badge/📖_Documentation-View_full_docs-0bb3a0?style=for-the-badge)](https://ensecnet.github.io/CiscoParser/)
 [![License](https://img.shields.io/badge/License-Apache_2.0-131c2b?style=for-the-badge)](LICENSE)
-[![Web edition](https://img.shields.io/badge/Web_edition-CiscoParserWeb-2ea043?style=for-the-badge)](https://github.com/TencoNemaStrach/CiscoParserWeb)
+[![Web edition](https://img.shields.io/badge/Web_edition-CiscoParserWeb-2ea043?style=for-the-badge)](https://github.com/ensecnet/CiscoParserWeb)
 
 </div>
 
@@ -51,7 +51,7 @@ NetBox deployment.
 ## Deploy on Proxmox
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/TencoNemaStrach/CiscoParser/main/deploy/lxc-deploy.sh -o lxc-deploy.sh
+curl -fsSL https://raw.githubusercontent.com/ensecnet/CiscoParser/main/deploy/lxc-deploy.sh -o lxc-deploy.sh
 bash lxc-deploy.sh
 # open http://<lxc-ip>:8080
 ```
@@ -66,7 +66,7 @@ docker compose up -d --build
 ## Editions
 
 - **CiscoParser** (this repo) — on-prem, live NetBox push over the local network.
-- **[CiscoParserWeb](https://github.com/TencoNemaStrach/CiscoParserWeb)** — public
+- **[CiscoParserWeb](https://github.com/ensecnet/CiscoParserWeb)** — public
   Cloudflare Worker; paste a config, download the model + a generated import script.
   Nothing stored, no credentials leave your machine.
 

@@ -10,7 +10,7 @@
 ###############################################################################
 set -euo pipefail
 
-REPO_URL="https://github.com/TencoNemaStrach/CiscoParser.git"
+REPO_URL="https://github.com/ensecnet/CiscoParser.git"
 TEMPLATE="debian-12-standard"   # minimal Debian; smallest reliable base for Docker
 
 C='\033[0;36m'; G='\033[0;32m'; Y='\033[1;33m'; W='\033[1;37m'; N='\033[0m'

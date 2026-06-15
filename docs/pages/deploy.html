@@ -9,7 +9,7 @@
 <main class="content">
 <h1>Deploy on Proxmox</h1>
 <p class="sub">One thin deployer: minimal Debian 12 LXC → Docker → clone repo → compose up.</p>
-<pre><code>curl -fsSL https://raw.githubusercontent.com/TencoNemaStrach/CiscoParser/main/deploy/lxc-deploy.sh -o lxc-deploy.sh
+<pre><code>curl -fsSL https://raw.githubusercontent.com/ensecnet/CiscoParser/main/deploy/lxc-deploy.sh -o lxc-deploy.sh
 bash lxc-deploy.sh</code></pre>
 <p>The wizard asks for container ID, hostname, storage, network (bridge / VLAN / IP) and the web port, then builds everything. Open <code>http://&lt;lxc-ip&gt;:8080</code>.</p>
 <h2>Any Docker host</h2>
