@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./backend
+    image: ciscoparser-backend:1.0
+    restart: unless-stopped
+    environment:
+      NETBOX_URL: "${NETBOX_URL:-}"
+      NETBOX_TOKEN: "${NETBOX_TOKEN:-}"
+    expose:
+      - "8000"
+
+  frontend:
+    build: ./frontend
+    image: ciscoparser-frontend:1.0
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${WEB_PORT:-8080}:80"

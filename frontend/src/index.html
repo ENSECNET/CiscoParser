@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ENSECNET CiscoParser</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --line:#283039;
+    --ink:#e6edf3; --muted:#8b949e; --accent:#3fb950; --warn:#d29922;
+    --err:#f85149; --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--mono);
+    font-size:14px;line-height:1.5}
+  header{border-bottom:1px solid var(--line);padding:14px 20px;display:flex;
+    align-items:center;gap:12px}
+  header .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+  header h1{font-size:15px;margin:0;letter-spacing:.5px;font-weight:600}
+  header .ver{color:var(--muted);font-size:12px}
+  main{max-width:1100px;margin:0 auto;padding:24px 20px;display:grid;
+    grid-template-columns:1fr 1fr;gap:20px}
+  .full{grid-column:1/-1}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:8px;
+    padding:18px}
+  .card h2{font-size:12px;text-transform:uppercase;letter-spacing:1px;
+    color:var(--muted);margin:0 0 14px;font-weight:600}
+  label{display:block;font-size:12px;color:var(--muted);margin:10px 0 4px}
+  input,textarea{width:100%;background:var(--bg);border:1px solid var(--line);
+    color:var(--ink);border-radius:6px;padding:8px 10px;font-family:var(--mono);
+    font-size:13px}
+  textarea{min-height:220px;resize:vertical}
+  button{background:var(--accent);color:#03110a;border:0;border-radius:6px;
+    padding:9px 16px;font-family:var(--mono);font-weight:600;font-size:13px;
+    cursor:pointer;margin-top:12px}
+  button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .row>*{flex:1;min-width:120px}
+  pre{background:var(--bg);border:1px solid var(--line);border-radius:6px;
+    padding:12px;overflow:auto;font-size:12px;max-height:380px;margin:0}
+  .status{font-size:12px;margin-top:8px;min-height:16px}
+  .ok{color:var(--accent)} .bad{color:var(--err)} .pending{color:var(--warn)}
+  .kpi{display:flex;gap:18px;margin-top:10px;flex-wrap:wrap}
+  .kpi div{background:var(--bg);border:1px solid var(--line);border-radius:6px;
+    padding:8px 12px;min-width:80px}
+  .kpi b{display:block;font-size:18px;color:var(--accent)}
+  .kpi span{font-size:11px;color:var(--muted)}
+  a{color:var(--accent)}
+  @media(max-width:780px){main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <span class="dot"></span>
+  <h1>ENSECNET&nbsp;·&nbsp;CISCOPARSER</h1>
+  <span class="ver">Cisco IOS-XE → NetBox · v1.0</span>
+</header>
+
+<main>
+  <!-- NetBox connection -->
+  <section class="card">
+    <h2>NetBox connection</h2>
+    <label>URL</label>
+    <input id="nbUrl" placeholder="http://192.168.200.236:8080">
+    <label>API token</label>
+    <input id="nbToken" type="password" placeholder="full token (shown once at creation)">
+    <button class="ghost" onclick="testConn()">Test connection</button>
+    <div class="status" id="connStatus"></div>
+  </section>
+
+  <!-- Parse -->
+  <section class="card">
+    <h2>1 · Parse config</h2>
+    <label>Upload running-config (.cfg / .txt)</label>
+    <input type="file" id="cfgFile" accept=".cfg,.txt,.conf">
+    <label>…or paste config text</label>
+    <textarea id="cfgText" placeholder="hostname CORE-RTR-01&#10;!&#10;interface GigabitEthernet0/0/0&#10; ip address 203.0.113.10 255.255.255.0"></textarea>
+    <button onclick="parseConfig()">Parse</button>
+    <div class="status" id="parseStatus"></div>
+  </section>
+
+  <!-- Parsed model -->
+  <section class="card full">
+    <h2>2 · Parsed model</h2>
+    <div class="kpi" id="kpi" style="display:none">
+      <div><b id="kIf">0</b><span>interfaces</span></div>
+      <div><b id="kVlan">0</b><span>vlans</span></div>
+      <div><b id="kVrf">0</b><span>vrfs</span></div>
+      <div><b id="kCtx">0</b><span>context blocks</span></div>
+    </div>
+    <pre id="modelOut">—</pre>
+    <button id="pushBtn" onclick="pushNetbox()" disabled>3 · Push to NetBox</button>
+    <div class="status" id="pushStatus"></div>
+  </section>
+</main>
+
+<script>
+const API = "/api";
+let model = null;
+
+function setStatus(id, msg, cls){
+  const el = document.getElementById(id);
+  el.textContent = msg; el.className = "status " + (cls||"");
+}
+
+async function testConn(){
+  const url = nbUrl.value.trim(), token = nbToken.value.trim();
+  setStatus("connStatus","testing…","pending");
+  try{
+    const r = await fetch(`${API}/test-connection`,{method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({url,token})});
+    const d = await r.json();
+    if(r.ok) setStatus("connStatus",`connected · NetBox ${d.netbox_version}`,"ok");
+    else setStatus("connStatus",d.detail||"failed","bad");
+  }catch(e){ setStatus("connStatus",String(e),"bad"); }
+}
+
+async function parseConfig(){
+  setStatus("parseStatus","parsing…","pending");
+  try{
+    let r;
+    const f = cfgFile.files[0];
+    if(f){
+      const fd = new FormData(); fd.append("file", f);
+      r = await fetch(`${API}/parse`,{method:"POST",body:fd});
+    } else {
+      const text = cfgText.value;
+      if(!text.trim()){ setStatus("parseStatus","provide a file or text","bad"); return; }
+      r = await fetch(`${API}/parse-text`,{method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({config:text})});
+    }
+    model = await r.json();
+    if(!r.ok){ setStatus("parseStatus",model.detail||"parse failed","bad"); return; }
+    renderModel();
+    setStatus("parseStatus",`parsed: ${model.name}`,"ok");
+    pushBtn.disabled = false;
+  }catch(e){ setStatus("parseStatus",String(e),"bad"); }
+}
+
+function renderModel(){
+  modelOut.textContent = JSON.stringify(model,null,2);
+  kpi.style.display="flex";
+  kIf.textContent = (model.interfaces||[]).length;
+  kVlan.textContent = (model.vlans||[]).length;
+  kVrf.textContent = (model.vrfs||[]).length;
+  kCtx.textContent = Object.keys(model.config_context||{}).length;
+}
+
+async function pushNetbox(){
+  if(!model){ return; }
+  const url = nbUrl.value.trim(), token = nbToken.value.trim();
+  if(!url||!token){ setStatus("pushStatus","set NetBox URL + token first","bad"); return; }
+  setStatus("pushStatus","pushing…","pending");
+  try{
+    const r = await fetch(`${API}/push`,{method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model,url,token})});
+    const d = await r.json();
+    if(r.ok){
+      pushStatus.innerHTML = `pushed · device <b>${d.device}</b> · ` +
+        `${d.interfaces} if / ${d.vlans} vlan / ${d.vrfs} vrf · ` +
+        `<a href="${d.url}" target="_blank">open in NetBox</a>`;
+      pushStatus.className = "status ok";
+    } else setStatus("pushStatus",d.detail||"push failed","bad");
+  }catch(e){ setStatus("pushStatus",String(e),"bad"); }
+}
+</script>
+</body>
+</html>
